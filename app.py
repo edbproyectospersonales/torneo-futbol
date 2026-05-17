@@ -188,7 +188,7 @@ if pagina == "🏆 Posiciones":
             hasta = label_a_fecha[seleccion]
             with col_info:
                 st.caption(" ")
-                st.success(f"📅 Tabla acumulada hasta el **{seleccion}**")
+                st.success(f"📅 Tabla acumulada hasta la **{seleccion}**")
 
         tabla = obtener_tabla_posiciones(hasta_fecha=hasta)
 
