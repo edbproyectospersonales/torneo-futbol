@@ -30,7 +30,7 @@ from queries import (
 # ─────────────────────────────────────────────
 
 st.set_page_config(
-    page_title="Torneo Local",
+    page_title="Torneo Stepi",
     page_icon="⚽",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -125,7 +125,7 @@ def verificar_password():
 # ─────────────────────────────────────────────
 
 st.sidebar.image("https://img.icons8.com/emoji/96/soccer-ball-emoji.png", width=80)
-st.sidebar.title("⚽ Torneo Local")
+st.sidebar.title("⚽ Torneo Stepi")
 st.sidebar.markdown("---")
 
 pagina = st.sidebar.radio(
@@ -141,7 +141,7 @@ pagina = st.sidebar.radio(
 )
 
 st.sidebar.markdown("---")
-st.sidebar.caption("Hecho con Streamlit + SQLite")
+# st.sidebar.caption("Hecho con Streamlit + SQLite")
 
 # ─────────────────────────────────────────────
 # HELPER: formatear fecha YYYY-MM-DD → DD/MM/YYYY
