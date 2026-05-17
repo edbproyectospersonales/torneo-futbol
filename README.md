@@ -1,152 +1,87 @@
-# 🏆 Torneo de Fútbol - App con Streamlit
-
-Proyecto personal para crear una web tipo Promiedos para gestionar un torneo de fútbol amateur/local.
+# ⚽ Torneo Local — App Web con Streamlit + SQLite + Docker
 
 ---
 
-# 🧠 Objetivo
+## 📁 Estructura del proyecto
 
-Construir una aplicación web simple pero escalable que permita:
-
-- Tabla de posiciones
-- Resultados de partidos
-- Goleadores
-- Panel admin básico para cargar datos
-
----
-
-# 🛠️ Tecnologías usadas
-
-- Python 🐍
-- Streamlit 🌐
-- SQLite 🗄️
-- Git + GitHub 🔧
+```
+torneo_app/
+├── app.py              → Interfaz principal (páginas y navegación)
+├── database.py         → Conexión a SQLite y creación de tablas
+├── queries.py          → Todas las consultas SQL
+├── requirements.txt    → Dependencias Python
+├── Dockerfile          → Cómo construir la imagen Docker
+├── docker-compose.yml  → Cómo correr el contenedor
+├── .dockerignore       → Archivos que Docker NO copia
+├── data/               → Carpeta donde vive torneo.db (creada automáticamente)
+└── README.md           → Este archivo
+```
 
 ---
 
-# 🚀 Cómo ejecutar el proyecto
+## 🐳 Correr con Docker (recomendado)
 
-## 1. Entrar a la carpeta del proyecto
+### Requisito único: instalar Docker Desktop
+https://www.docker.com/products/docker-desktop
 
-cd torneo-futbol
+Una sola instalación, nunca más tocás Python ni pip directamente.
 
-## 2. Activar entorno virtual
+### Comandos
 
-source venv/bin/activate
+```bash
+# 1. Entrar a la carpeta del proyecto
+cd torneo_app
 
-## 3. Instalar dependencias
+# 2. Construir y arrancar (la primera vez tarda ~1 min)
+docker compose up --build
 
-pip install streamlit
+# 3. Abrir en el browser
+# http://localhost:8501
+```
 
-## 4. Ejecutar la app
+```bash
+# Parar la app
+docker compose down
 
+# Volver a arrancar (sin rebuild, es instantáneo)
+docker compose up
+
+# Ver los logs si algo falla
+docker compose logs -f
+```
+
+### ¿Dónde se guardan los datos?
+En la carpeta `data/torneo.db` de tu proyecto (fuera del contenedor).
+Si borrás y volvés a crear el contenedor, los datos siguen ahí.
+
+---
+
+## 💻 Correr sin Docker (opcional)
+
+```bash
+python -m venv venv && source venv/bin/activate
+pip install -r requirements.txt
 streamlit run app.py
+# → http://localhost:8501
+```
 
 ---
 
-# 📁 Estructura del proyecto (actual)
+## 🌐 Deploy gratuito
 
-torneo-futbol/
-│
-├── app.py
-├── venv/
-├── .gitignore
-├── README.md
+### Streamlit Community Cloud
+1. Subí el proyecto a GitHub (sin la carpeta `data/`)
+2. Entrá a https://share.streamlit.io
+3. Conectá el repo → deploy automático
 
----
-
-# 🧠 Problemas encontrados y soluciones
-
-## ❌ Streamlit no encontrado
-Error:
-streamlit: command not found
-
-✔ Solución:
-source venv/bin/activate
-pip install streamlit
+> Para deploy con datos persistentes, migrá luego a Railway.app o Render.com
 
 ---
 
-## ❌ VS Code no abría carpeta correctamente
-✔ Solución:
-code .
+## 💡 Ideas para expandir
 
----
-
-## ❌ Git no reconocía main
-Error:
-src refspec main does not match any
-
-✔ Solución:
-git add .
-git commit -m "init"
-git branch -M main
-
----
-
-## ❌ venv aparecía en Git
-✔ Solución:
-
-Crear archivo .gitignore con:
-
-venv/
-__pycache__/
-*.pyc
-*.db
-
----
-
-## ❌ Git commit sin identidad
-Error:
-Author identity unknown
-
-✔ Solución:
-git config --global user.name "Tu Nombre"
-git config --global user.email "tu@email.com"
-
----
-
-## ❌ VS Code sandbox error
-Error:
-Permission denied (sandbox)
-
-✔ Solución:
-code --no-sandbox
-
----
-
-## ❌ Streamlit no corría
-Error:
-streamlit: command not found
-
-✔ Solución:
-source venv/bin/activate
-
----
-
-# 📌 Estado actual
-
-- Python instalado ✔️
-- Streamlit funcionando ✔️
-- Git inicializado ✔️
-- Proyecto base creado ✔️
-- README documentado ✔️
-
----
-
-# 🚀 Próximos pasos
-
-- Crear base de datos SQLite
-- Tabla de posiciones real
-- Sistema de partidos
-- Goleadores
-- Panel admin
-- Subir proyecto a GitHub
-
----
-
-# 💡 Nota personal
-
-Este proyecto es parte de un proceso de aprendizaje práctico:
-
-Aprender construyendo, no solo estudiando teoría.
+- [ ] Contraseña en el panel admin (`st.secrets`)
+- [ ] Fixture de próximos partidos
+- [ ] Estadísticas por jugador (asistencias, tarjetas)
+- [ ] Múltiples torneos / temporadas
+- [ ] Migrar a PostgreSQL para deploy profesional
