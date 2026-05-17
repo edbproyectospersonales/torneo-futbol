@@ -333,8 +333,7 @@ if pagina == "🏆 Posiciones":
                 st.markdown(tabla_html, unsafe_allow_html=True)
 
                 st.caption(
-                    "En cada celda: el escudo del **ganador** aparece primero · "
-                    "en empates ambos escudos al mismo nivel"
+                    "En cada celda: el escudo del **ganador** aparece primero."
                 )
 
 
