@@ -30,7 +30,7 @@ from queries import (
 # ─────────────────────────────────────────────
 
 st.set_page_config(
-    page_title="Torneo Stepi",
+    page_title="Torneo Local",
     page_icon="⚽",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -99,7 +99,7 @@ cargar_datos_demo()
 # Cambiá ADMIN_PASSWORD por la que quieras. En el futuro
 # esto se puede mover a un archivo .env o st.secrets.
 
-ADMIN_PASSWORD = st.secrets["admin_password"]
+ADMIN_PASSWORD = "torneo2025"
 
 if "admin_autenticado" not in st.session_state:
     st.session_state.admin_autenticado = False
@@ -125,7 +125,7 @@ def verificar_password():
 # ─────────────────────────────────────────────
 
 st.sidebar.image("https://img.icons8.com/emoji/96/soccer-ball-emoji.png", width=80)
-st.sidebar.title("⚽ Torneo Stepi")
+st.sidebar.title("⚽ Torneo Local")
 st.sidebar.markdown("---")
 
 pagina = st.sidebar.radio(
@@ -141,6 +141,7 @@ pagina = st.sidebar.radio(
 )
 
 st.sidebar.markdown("---")
+
 
 # ─────────────────────────────────────────────
 # HELPER: formatear fecha YYYY-MM-DD → DD/MM/YYYY
@@ -187,7 +188,7 @@ if pagina == "🏆 Posiciones":
             hasta = label_a_fecha[seleccion]
             with col_info:
                 st.caption(" ")
-                st.success(f"📅 Tabla acumulada hasta la **{seleccion}**")
+                st.success(f"📅 Tabla acumulada hasta el **{seleccion}**")
 
         tabla = obtener_tabla_posiciones(hasta_fecha=hasta)
 
@@ -196,7 +197,17 @@ if pagina == "🏆 Posiciones":
         else:
             df = pd.DataFrame(tabla)
             df.insert(0, "Pos", range(1, len(df) + 1))
-            st.dataframe(df, use_container_width=True, hide_index=True)
+
+            # Alineamos todo a la izquierda — headers y celdas consistentes
+            st.dataframe(
+                df.style.set_properties(**{"text-align": "left"})
+                  .set_table_styles([{
+                      "selector": "th",
+                      "props": [("text-align", "left")]
+                  }]),
+                use_container_width=True,
+                hide_index=True,
+            )
 
             st.markdown("---")
             st.markdown(
