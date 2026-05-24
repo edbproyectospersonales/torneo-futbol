@@ -197,17 +197,17 @@ if pagina == "🏆 Posiciones":
         else:
             df = pd.DataFrame(tabla)
             df.insert(0, "Pos", range(1, len(df) + 1))
+            df = df[["Pos", "Equipo", "PTS", "PJ", "PG", "PE", "PP", "GF", "GC", "DG"]]
 
-            # Alineamos todo a la izquierda — headers y celdas consistentes
-            st.dataframe(
-                df.style.set_properties(**{"text-align": "left"})
-                  .set_table_styles([{
-                      "selector": "th",
-                      "props": [("text-align", "left")]
-                  }]),
-                use_container_width=True,
-                hide_index=True,
-            )
+            # Streamlit fuerza alineación derecha en columnas numéricas
+            # sin importar el CSS. La solución es convertirlas a string
+            # antes de mostrar — así las trata como texto y respeta left.
+            cols_numericas = ["Pos","PJ","PG","PE","PP","GF","GC","DG","PTS"]
+            for col in cols_numericas:
+                if col in df.columns:
+                    df[col] = df[col].astype(str)
+
+            st.dataframe(df, use_container_width=True, hide_index=True)
 
             st.markdown("---")
             st.markdown(
@@ -342,7 +342,10 @@ if pagina == "🏆 Posiciones":
                 """
                 st.markdown(tabla_html, unsafe_allow_html=True)
 
-
+                st.caption(
+                    "En cada celda: el escudo del **ganador** aparece primero · "
+                    "en empates ambos escudos al mismo nivel"
+                )
 
 
 # ─────────────────────────────────────────────
